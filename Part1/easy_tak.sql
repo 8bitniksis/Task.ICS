@@ -38,12 +38,10 @@ create table Vacation (
   DateEnd date not null
 );
 
--- Проверка пересечения отпусков
-SELECT e1.Name, e2.Name
-FROM Vacation v1
-JOIN Vacation v2 ON v1.DateBegin < v2.DateEnd AND v2.DateBegin < v1.DateEnd AND v1.ID_Employee < v2.ID_Employee
-JOIN Employee e1 ON v1.ID_Employee = e1.ID
-JOIN Employee e2 ON v2.ID_Employee = e2.ID
+-- Проверка пересечения отпусков и вывод дат отпусков и id работников у которых они перескаются
+SELECT v1.ID_Employee, v2.ID_Employee, v1.DateBegin, v1.DateEnd, v2.DateBegin, v2.DateEnd
+FROM Vacation v1, Vacation v2
+WHERE v1.DateBegin < v2.DateBegin AND v2.DateBegin < v1.DateEnd
 
 -- Проверка декретного отпуска
 SELECT * FROM Vacation
