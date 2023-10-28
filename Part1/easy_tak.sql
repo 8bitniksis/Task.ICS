@@ -39,7 +39,7 @@ create table Vacation (
 );
 
 -- Проверка пересечения отпусков и вывод дат отпусков и id работников у которых они перескаются
-SELECT v1.ID_Employee, v2.ID_Employee, v1.DateBegin, v1.DateEnd, v2.DateBegin, v2.DateEnd
+SELECT v1.ID_Employee, v1.DateBegin, v1.DateEnd, v2.ID_Employee, v2.DateBegin, v2.DateEnd
 FROM Vacation v1, Vacation v2
 WHERE v1.DateBegin < v2.DateBegin AND v2.DateBegin < v1.DateEnd
 
