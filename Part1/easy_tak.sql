@@ -16,32 +16,39 @@
 */
 
 -- Справочник сотрудников
-create table Employee (
-  ID int not null primary key,
-  Code varchar(10) not null unique,
-  Name varchar(255)
+CREATE TABLE Employee (
+  ID INT NOT NULL PRIMARY KEY,
+  Code VARCHAR(10) NOT NULL UNIQUE,
+  Name VARCHAR(255)
 );
-
-insert into Employee (ID, Code, Name)
-values (1, 'E01', 'Ivanov Ivan Ivanovich'),
+ 
+INSERT INTO Employee (ID, Code, Name)
+VALUES (1, 'E01', 'Ivanov Ivan Ivanovich'),
   (2, 'E02', 'Petrov Petr Petrovich'),
   (3, 'E03', 'Sidorov Sidr Sidorovich'),
   (4, 'E04', 'Semenov Semen Semenovich'),
   -- Полный тёзка сотрудника E02
   (5, 'E05', 'Petrov Petr Petrovich');
-
+ 
 -- Отпуска сотрудников
-create table Vacation (
-  ID int not null auto_increment primary key,
-  ID_Employee int not null references Employee(ID),
-  DateBegin date not null,
-  DateEnd date not null
+CREATE TABLE Vacation (
+  ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  ID_Employee INT NOT NULL REFERENCES Employee(ID),
+  DateBegin DATE NOT NULL,
+  DateEnd DATE NOT NULL
 );
+ 
+INSERT INTO Vacation (ID_Employee, DateBegin, DateEnd)
+VALUES (1, '2019-08-10', '2019-09-01')
+  ,(2, '2019-05-01', '2019-05-15')
+  ,(1, '2019-12-29', '2020-01-14')
+  ,(3, '2020-01-14', '2020-01-14')
+  ,(4, '2021-02-01', '2021-02-14');
 
 -- Проверка пересечения отпусков и вывод дат отпусков и id работников у которых они перескаются
 SELECT v1.ID_Employee, v1.DateBegin, v1.DateEnd, v2.ID_Employee, v2.DateBegin, v2.DateEnd
-FROM Vacation v1, Vacation v2
-WHERE v1.DateBegin < v2.DateBegin AND v2.DateBegin < v1.DateEnd
+FROM Vacation v1 LEFT JOIN Vacation v2 ON v1.ID_Employee <> v2.ID_Employee
+WHERE v1.DateBegin <= v2.DateBegin AND v2.DateBegin <= v1.DateEnd;
 
 -- Проверка декретного отпуска
 SELECT * FROM Vacation
